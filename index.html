@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>MacGyver Toaster Notification</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="toaster.css" />
+        <style>
+        body {
+          font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        }
+        </style>
+
+    </head>
+    <body ng-app="ToasterApp" ng-controller="DocController">
+
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script>
+        <script src="toaster.js"></script>
+        <script>
+          angular.module("ToasterApp", ["Mac.Toaster", "ngAnimate"]).
+            controller("DocController", [
+              "$interval",
+              "$scope",
+              "notification",
+              function($interval, $scope, notification) {
+                var randomMessage = [
+                  "Lonely Henry is nothing at all?",
+                  "Enqoyism shoots pineapples with a machinegun.",
+                  "A glittering gem has its world rocked by trees (or rocks).",
+                  "Lucky number slevin says goodbye to the shooter.",
+                  "Wondrous awe says goodbye to the shooter.",
+                  "The last sentence you saw lay down on the riverbed.",
+                  "The clear star that is yesterday visits Japan in the winter.",
+                  "A sickingly prodigous profile is like a summer breeze.",
+                  "The last sentence you saw rains heavily."
+                ], showRandomMessage = function(){
+                  var index;
+                  index = Math.floor(Math.random() * 100 % randomMessage.length);
+                  notification.success(randomMessage[index]);
+                };
+
+                showRandomMessage();
+                $interval(showRandomMessage, 5000);
+              }
+            ]);
+        </script>
+    </body>
+</html>

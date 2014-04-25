@@ -1,0 +1,29 @@
+{
+  "name": "macgyver-toaster",
+  "version": "0.0.0",
+  "authors": [
+    "Adrian Lee <adrianlee44@gmail.com>"
+  ],
+  "description": "MacGyver toaster notification",
+  "main": "toaster.js",
+  "keywords": [
+    "toaster",
+    "angular",
+    "notification"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/angular-macgyver/macgyver-toaster",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.2.16",
+    "angular-mocks": "~1.2.16",
+    "jquery": "~2.1.0",
+    "angular-animate": "~1.2.16"
+  }
+}

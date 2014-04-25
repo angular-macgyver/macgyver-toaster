@@ -1,0 +1,64 @@
+.mac-toasters {
+  position: fixed;
+}
+.mac-toaster {
+  background: #fff;
+  height: 48px;
+  border: solid 1px #d9dfea;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, .2);
+  box-sizing: border-box;
+  cursor: pointer;
+  position: relative;
+}
+.mac-toaster.ng-enter, .mac-toaster.ng-leave {
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+.mac-toaster.ng-enter, .mac-toaster.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+.mac-toaster.ng-leave, .mac-toaster.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+.mac-toaster>.x {
+  position: absolute;
+  right: 12px;
+  top: 11px;
+  font-size: 21px;
+  font-weight: bold;
+  text-shadow: 0px 1px 0px #fff;
+  opacity: 0.2;
+  font-style: normal;
+}
+.mac-toaster>.x:after {
+  content: "x";
+}
+.mac-toaster-content {
+  position: relative;
+  padding: 0 48px 0 56px;
+}
+.mac-toaster-icon {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 7px;
+  left: 12px;
+  overflow: hidden;
+  text-align: center;
+  line-height: 30px;
+}
+.mac-toaster-icon>.icon {
+  color: #fff;
+}
+.mac-toaster-icon>img {
+  width: 100%;
+}
+.mac-toaster-message {
+  white-space: nowrap;
+  line-height: 46px;
+}
+.mac-toaster-message>a {
+  color: #000;
+}
