@@ -23,7 +23,13 @@ describe("provider", function() {
     expect(provider.options("delay")).toBe(4000);
   }));
 
-  it("should have update position value", inject(function() {
+  it("should update values with an object", inject(function() {
+    provider.options({position: "bottom right", max: 4});
+    expect(provider.options("position")).toBe("bottom right");
+    expect(provider.options("max")).toBe(4);
+  }));
+
+  it("should have updated position value", inject(function() {
     provider.options("position", "bottom right");
     expect(provider.options("position")).toBe("bottom right");
   }));

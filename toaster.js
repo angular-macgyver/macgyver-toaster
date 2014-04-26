@@ -32,7 +32,9 @@ angular.module("Mac.Toaster", []).
 
     this.options = function(key, value){
       if (angular.isObject(key)) {
-        angular.forEach(key, self.options);
+        angular.forEach(key, function(value, key){
+          self.options(key, value);
+        });
       } else if (key && !value) {
         return config[key];
       } else {
