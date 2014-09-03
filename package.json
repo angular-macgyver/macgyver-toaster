@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Toaster notification",
   "scripts": {
-    "test": "grunt karma"
+    "test": "grunt karma:ci"
   },
   "repository": {
     "type": "git",

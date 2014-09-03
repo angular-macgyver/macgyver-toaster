@@ -8,6 +8,10 @@ module.exports = function(grunt) {
       unit: {
         configFile: "test/karma.conf.js",
         background: true
+      },
+      ci: {
+        configFile: "test/karma.conf.js",
+        singleRun: true
       }
     },
     chalkboard: {
