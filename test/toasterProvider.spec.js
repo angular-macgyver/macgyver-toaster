@@ -33,4 +33,14 @@ describe("provider", function() {
     provider.options("position", "bottom right");
     expect(provider.options("position")).toBe("bottom right");
   }));
+
+  it("should have updated delay value with 0", inject(function() {
+    provider.options("delay", 0);
+    expect(provider.options("delay")).toBe(0);
+  }));
+
+  it("should have updated max value with false", inject(function() {
+    provider.options("delay", false);
+    expect(provider.options("delay")).toBe(false);
+  }));
 });

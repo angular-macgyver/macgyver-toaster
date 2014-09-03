@@ -37,7 +37,7 @@ angular.module("Mac.Toaster", []).
         angular.forEach(key, function(value, key){
           self.options(key, value);
         });
-      } else if (key && !value) {
+      } else if (key && value === undefined) {
         return config[key];
       } else {
         config[key] = value;
