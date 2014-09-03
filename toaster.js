@@ -29,7 +29,10 @@ angular.module("Mac.Toaster", []).
         "</div></div>",
       position: "top right",
       max: 5,
-      delay: 4000
+      delay: 4000,
+      success: {},
+      error: {},
+      notice: {}
     };
 
     this.options = function(key, value){
@@ -136,15 +139,15 @@ angular.module("Mac.Toaster", []).
         };
 
         error = function(message, options) {
-          show.call(this, "error", message, options);
+          this.show.call(this, "error", message, angular.extend({}, config.error, options));
         };
 
         success = function(message, options) {
-          show.call(this, "success", message, options);
+          this.show.call(this, "success", message, angular.extend({}, config.success, options));
         };
 
         notice = function(message, options) {
-          show.call(this, "notice", message, options);
+          this.show.call(this, "notice", message, angular.extend({}, config.notice, options));
         };
 
         close = function(index) {
