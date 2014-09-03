@@ -11,6 +11,7 @@
  * @param {Integer} max     Maximum number of notifications (default 5)
  *                          If maximum number is set to false, there is no limit
  * @param {Integer} delay   Closing delay (default 4000)
+ *                          Setting delay to 0 with make toaster persist until user click
  *
  */
 
@@ -117,10 +118,12 @@ angular.module("Mac.Toaster", []).
             toastersScope.notifications.shift();
           }
 
-          timeoutPromise = $timeout(function() {
-            toastersScope.notifications.shift();
-            timeoutPromise = null;
-          }, config.delay);
+          if (config.delay > 0) {
+            timeoutPromise = $timeout(function() {
+              toastersScope.notifications.shift();
+              timeoutPromise = null;
+            }, config.delay);
+          }
 
           toastersScope.notifications.push({
             type: type,
