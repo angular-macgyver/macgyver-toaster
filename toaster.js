@@ -9,6 +9,7 @@
  * @param {String} template Toasters template
  * @param {String} position Toasters position (default "top right")
  * @param {Integer} max     Maximum number of notifications (default 5)
+ *                          If maximum number is set to false, there is no limit
  * @param {Integer} delay   Closing delay (default 4000)
  *
  */
@@ -112,7 +113,7 @@ angular.module("Mac.Toaster", []).
           }
 
           // If there are more notifications than max, pop the first one
-          if (toastersScope.notifications.length >= config.max) {
+          if (config.max && toastersScope.notifications.length >= config.max) {
             toastersScope.notifications.shift();
           }
 
