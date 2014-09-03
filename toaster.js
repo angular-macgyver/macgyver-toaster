@@ -109,7 +109,7 @@ angular.module("Mac.Toaster", []).
           var timeoutPromise;
 
           // Default to empty object
-          if (options == null) {
+          if (options === null) {
             options = {};
           }
 
