@@ -113,22 +113,24 @@ angular.module("Mac.Toaster", []).
             options = {};
           }
 
+          opts = angular.extend({}, config, options);
+
           // If there are more notifications than max, pop the first one
-          if (config.max && toastersScope.notifications.length >= config.max) {
+          if (opts.max && toastersScope.notifications.length >= opts.max) {
             toastersScope.notifications.shift();
           }
 
-          if (config.delay > 0) {
+          if (opts.delay > 0) {
             timeoutPromise = $timeout(function() {
               toastersScope.notifications.shift();
               timeoutPromise = null;
-            }, config.delay);
+            }, opts.delay);
           }
 
           toastersScope.notifications.push({
             type: type,
             message: message,
-            options: options,
+            options: opts,
             promise: timeoutPromise
           });
         };
