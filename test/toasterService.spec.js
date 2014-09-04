@@ -8,7 +8,7 @@ describe("service", function() {
       service = notification;
     });
 
-    spyOn(service, "show");
+    spyOn(service, "show").and.callThrough();
   });
 
   it("should get the service", function() {

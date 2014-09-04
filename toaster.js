@@ -109,7 +109,7 @@ angular.module("Mac.Toaster", []).
           */
 
         show = function(type, message, options) {
-          var timeoutPromise;
+          var new_notification;
 
           // Default to empty object
           if (options === null) {
@@ -123,19 +123,24 @@ angular.module("Mac.Toaster", []).
             toastersScope.notifications.shift();
           }
 
-          if (opts.delay > 0) {
-            timeoutPromise = $timeout(function() {
-              toastersScope.notifications.shift();
-              timeoutPromise = null;
-            }, opts.delay);
-          }
-
-          toastersScope.notifications.push({
+          new_notification = {
             type: type,
             message: message,
             options: opts,
-            promise: timeoutPromise
-          });
+            promise: null
+          };
+
+          if (opts.delay > 0) {
+            new_notification.promise = $timeout(function() {
+              var index;
+              index = toastersScope.notifications.indexOf(new_notification);
+              if (index > -1) {
+                toastersScope.notifications.splice(index, 1);
+              }
+            }, opts.delay);
+          }
+
+          toastersScope.notifications.push(new_notification);
         };
 
         error = function(message, options) {
