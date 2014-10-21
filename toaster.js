@@ -165,10 +165,6 @@ angular.module("Mac.Toaster", []).
 
         toastersElement = $compile(config.template)(toastersScope);
 
-        for (i = 0; i < positions.length; i++) {
-          toastersElement.css(positions[i], 14);
-        }
-
         $animate.enter(toastersElement, angular.element(document.body));
 
         return {
