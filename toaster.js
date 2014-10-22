@@ -15,9 +15,7 @@
  *
  */
 
-angular.module("Mac.Toaster", [
-    'ngAnimate'
-  ]).
+angular.module("Mac.Toaster", []).
   provider("notification", function() {
     var config, self;
 
