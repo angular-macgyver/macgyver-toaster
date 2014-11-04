@@ -23,7 +23,7 @@ angular.module("Mac.Toaster", []).
 
     self = this;
     config = {
-      template: "<div class=\"mac-toasters\"><div class=\"mac-toaster\" ng-repeat=\"notification in notifications track by notification.id\">" +
+      template: "<div class=\"mac-toasters\"><div class=\"mac-toaster\" ng-repeat=\"notification in notifications\">" +
         "<div ng-class=\"notification.type\" class=\"mac-toaster-content\">" +
         "<div ng-if=\"notification.count > 1\" class=\"mac-toaster-count\"> {{notification.count}} </div>" +
         "<div class=\"mac-toaster-icon\"><i ng-class=\"notification.type\" class=\"icon\"></i></div>" +
@@ -162,7 +162,7 @@ angular.module("Mac.Toaster", []).
 
                 // if there is no more messages left in the aggregated
                 // category delete the notification
-                if (messages.length === 0) {
+                if (messages.length === 0)  {
                   message_index = toastersScope.notifications.indexOf(notification_hash[short_key]);
                   toastersScope.notifications.splice(message_index, 1);
                   delete notification_hash[short_key];
@@ -174,7 +174,7 @@ angular.module("Mac.Toaster", []).
                   options: opts,
                   promise: null,
                   count: 2,
-                  id: long_key
+                  key: long_key
                 };
 
                 toastersScope.notifications.push(new_notification);
@@ -188,19 +188,21 @@ angular.module("Mac.Toaster", []).
             // create a new notification if there is no aggregation possible
             // including notifications with no category defined
             else {
-                new_notification = {
-                  type: type,
-                  messages: [message],
-                  options: opts,
-                  promise: null,
-                  count: 1,
-                  id: short_key || (new Date().getTime() + Math.random())
-                };
+              new_notification = {
+                type: type,
+                messages: [message],
+                options: opts,
+                promise: null,
+                count: 1,
+              };
 
-                toastersScope.notifications.push(new_notification);
+              toastersScope.notifications.push(new_notification);
 
-                // only add to hash if aggregation is allowed (category is provided)
-                if (options.category) notification_hash[short_key] = new_notification;
+              // only add to hash if aggregation is allowed (category is provided)
+              if (options.category){
+                new_notification.key = short_key;
+                notification_hash[short_key] = new_notification;
+              }
             }
           // set the auto-close delay if provided
           if (opts.delay > 0) {
@@ -220,7 +222,6 @@ angular.module("Mac.Toaster", []).
             }, opts.delay);
           }
 
-          console.log(toastersScope.notifications);
         };
 
         error = function(message, options) {
@@ -237,13 +238,14 @@ angular.module("Mac.Toaster", []).
 
         close = function(index) {
           var notification = toastersScope.notifications[index];
+
           if (notification.promise) {
             $timeout.cancel(notification.promise);
           }
+
           toastersScope.notifications.splice(index, 1);
+          delete notification_hash[notification.key];
         };
-
-
 
         toastersElement = $compile(config.template)(toastersScope);
 
