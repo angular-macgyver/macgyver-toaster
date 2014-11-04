@@ -17,14 +17,19 @@
 
 angular.module("Mac.Toaster", []).
   provider("notification", function() {
-    var config, self;
+    var config, self, notification_index;
+
+    notification_hash = {};
 
     self = this;
     config = {
       template: "<div class=\"mac-toasters\"><div class=\"mac-toaster\" ng-repeat=\"notification in notifications\">" +
         "<div ng-class=\"notification.type\" class=\"mac-toaster-content\">" +
+        "<div ng-if=\"notification.count > 1\" class=\"mac-toaster-count\"> {{notification.count}} </div>" +
         "<div class=\"mac-toaster-icon\"><i ng-class=\"notification.type\" class=\"icon\"></i></div>" +
-        "<div class=\"mac-toaster-message\">{{notification.message}}</div></div>" +
+        "<div class=\"mac-toaster-message\">" +
+          "<div ng-repeat=\"message in notification.messages\"> {{message}} <hr ng-if=\"!$last\"> </div>" +
+        "</div>" +
         "<i ng-click=\"close($index)\" class=\"icon x\"></i>" +
         "</div></div>",
       position: "top right",
@@ -109,7 +114,7 @@ angular.module("Mac.Toaster", []).
           */
 
         show = function(type, message, options) {
-          var new_notification;
+          var new_notification, notification_index, message_index, short_key, long_key;
 
           // Default to empty object
           if (options === null) {
@@ -123,20 +128,70 @@ angular.module("Mac.Toaster", []).
             toastersScope.notifications.shift();
           }
 
-          new_notification = {
-            type: type,
-            message: message,
-            options: opts,
-            promise: null
-          };
+          if (options.category) {
+            short_key = [type, options.category].join('|');
+            long_key = [type, options.category, message].join('|');
+          }
+
+          if (long_key && long_key in notification_hash) {
+              notification_index = toastersScope.notifications.indexOf(notification_hash[long_key]);
+              notification_hash[long_key].count += 1;
+              toastersScope.notifications.splice(notification_index, 1);
+              toastersScope.notifications.push(notification_hash[long_key]);
+            } else if (short_key && short_key in notification_hash) {
+              var messages = notification_hash[short_key].messages;
+
+              if (messages.indexOf(message) > -1) {
+                message_index = messages.indexOf(message);
+
+                messages.splice(message_index, 1);
+
+                if (messages.length === 0) {
+                  message_index = toastersScope.notifications.indexOf(notification_hash[short_key]);
+                  notifications.splice(message_index, 1);
+                  delete notification_hash[short_key];
+                }
+
+                new_notification = {
+                  type: type,
+                  messages: [message],
+                  options: opts,
+                  promise: null,
+                  count: 2
+                };
+
+                toastersScope.notifications.push(new_notification);
+                notification_hash[long_key] = new_notification;
+
+              } else {
+                messages.unshift(message);
+              }
+            } else {
+                new_notification = {
+                  type: type,
+                  messages: [message],
+                  options: opts,
+                  promise: null,
+                  count: 1
+                };
+
+                toastersScope.notifications.push(new_notification);
+
+                if (options.category) notification_hash[short_key] = new_notification;
+            }
 
           if (opts.delay > 0) {
             new_notification.promise = $timeout(function() {
               var index;
               index = toastersScope.notifications.indexOf(new_notification);
-              if (index > -1) {
+
+              if (new_notification.count > 1) {
+                new_notification.count -= 1;
+              }
+              else if (index > -1) {
                 toastersScope.notifications.splice(index, 1);
               }
+
             }, opts.delay);
           }
 
@@ -162,6 +217,8 @@ angular.module("Mac.Toaster", []).
           }
           toastersScope.notifications.splice(index, 1);
         };
+
+
 
         toastersElement = $compile(config.template)(toastersScope);
 
