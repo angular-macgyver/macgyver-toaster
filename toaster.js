@@ -21,7 +21,7 @@ angular.module("Mac.Toaster", []).
 
     self = this;
     config = {
-      template: "<div class=\"mac-toasters\"><div class=\"mac-toaster\" ng-repeat=\"notification in notifications\">" +
+      template: "<div class=\"mac-toasters\"><div class=\"mac-toaster animates\" ng-repeat=\"notification in notifications\">" +
         "<div ng-class=\"notification.type\" class=\"mac-toaster-content\">" +
         "<div class=\"mac-toaster-icon\"><i ng-class=\"notification.type\" class=\"icon\"></i></div>" +
         "<div class=\"mac-toaster-message\">{{notification.message}}</div></div>" +
